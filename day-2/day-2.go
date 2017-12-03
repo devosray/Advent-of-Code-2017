@@ -12,17 +12,40 @@ func main() {
 
 	for _, line := range inputLines {
 		numArray := utils.StringToIntegerArray(line, "\t")
+
+		// Needed for part 1
 		largest := numArray[0]
 		smallest := numArray[0]
-		for _, num := range numArray {
-			if num > largest {
-				largest = num
-			}
-			if num < smallest {
-				smallest = num
+
+		// Needed for part 2
+		var toAdd int = 0
+
+		for i, numOne := range numArray {
+			switch input.Part {
+			case utils.PartOne:
+				if numOne > largest {
+					largest = numOne
+				}
+				if numOne < smallest {
+					smallest = numOne
+				}
+
+			case utils.PartTwo:
+				for j, numTwo := range numArray {
+					if i != j && numOne > numTwo && numOne%numTwo == 0 {
+						toAdd = numOne / numTwo
+					}
+				}
 			}
 		}
-		checksum += largest - smallest
+
+		// Add result to checksum
+		switch input.Part {
+		case utils.PartOne:
+			checksum += largest - smallest
+		case utils.PartTwo:
+			checksum += toAdd
+		}
 	}
 
 	fmt.Printf("Checksum: %d\n", checksum)
