@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"flag"
 	"strings"
+	"strconv"
 )
 
 type PuzzlePart int
@@ -58,4 +59,13 @@ func (input *PuzzleInput) ParseStringArrayDelimiter(delimiter string) []string {
 // Parses puzzle input as array of strings separated by newlines
 func (input *PuzzleInput) ParseStringArrayNewlines() []string {
 	return input.ParseStringArrayDelimiter("\n")
+}
+
+// Parses input as a single int
+func (input *PuzzleInput) ParseAsInt() int {
+	num, err := strconv.Atoi(string(input.Data))
+	if err != nil {
+		log.Fatal(err)
+	}
+	return num
 }
